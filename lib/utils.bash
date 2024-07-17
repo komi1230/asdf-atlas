@@ -41,7 +41,7 @@ download_release() {
 	filename="$2"
 
 	get_architecture $version
-	url="https://release.ariga.io/atlas/atlas-community-$OS-$PLATFORM-$version"
+	url="https://release.ariga.io/atlas/atlas-community-$PLATFORM-$version"
 	if [[ "$OS" == *"windows"* ]];
 	then
 		url=$url.exe
