@@ -54,7 +54,7 @@ download_release() {
 
 install_version() {
 	local install_type="$1"
-	local version="v$2"
+	local version="$2"
 	local install_path="${3%/bin}/bin"
 
 	if [ "$install_type" != "version" ]; then
@@ -68,6 +68,7 @@ install_version() {
 
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
+
 		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
 
 		echo "$TOOL_NAME $version installation was successful!"
