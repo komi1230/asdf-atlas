@@ -37,7 +37,7 @@ list_all_versions() {
 
 download_release() {
 	local version filename url
-	version="$1"
+	version="v$1"
 	filename="$2"
 
 	get_architecture $version
