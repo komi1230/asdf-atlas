@@ -40,7 +40,7 @@ download_release() {
 	version="$1"
 	filename="$2"
 
-	get_architecture
+	get_architecture $version
 	url="https://release.ariga.io/atlas/atlas-community-$OS-$PLATFORM-$version"
 	if [[ "$OS" == *"windows"* ]];
 	then
@@ -77,7 +77,8 @@ install_version() {
 }
 
 get_architecture() {
-    local _ostype _cputype _os
+    local _version _ostype _cputype _os
+	_version="$1"
     _ostype="$(uname -s)"
     _cputype="$(uname -m)"
 
@@ -108,7 +109,7 @@ get_architecture() {
         _os=Linux
         # If the requested Atlas Version is prior to v0.12.1, the libc implementation is musl,
         # or the glibc version is <2.31, use the musl build.
-        if [ "$ATLAS_VERSION" != "latest" ] &&
+        if [ "$_version" != "latest" ] &&
             [ "$(printf '%s\n' "v0.12.1" "$ATLAS_VERSION" | sort -V | head -n1)" = "$ATLAS_VERSION" ]; then
             if ldd --version 2>&1 | grep -q 'musl' ||
                 [ "$(version \"$(ldd --version | awk '/ldd/{print $NF}')\")" -lt "$(version '2.31')" ]; then
