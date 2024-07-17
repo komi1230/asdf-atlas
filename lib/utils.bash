@@ -110,7 +110,7 @@ get_architecture() {
         # If the requested Atlas Version is prior to v0.12.1, the libc implementation is musl,
         # or the glibc version is <2.31, use the musl build.
         if [ "$_version" != "latest" ] &&
-            [ "$(printf '%s\n' "v0.12.1" "$ATLAS_VERSION" | sort -V | head -n1)" = "$ATLAS_VERSION" ]; then
+            [ "$(printf '%s\n' "v0.12.1" "$_version" | sort -V | head -n1)" = "$_version" ]; then
             if ldd --version 2>&1 | grep -q 'musl' ||
                 [ "$(version \"$(ldd --version | awk '/ldd/{print $NF}')\")" -lt "$(version '2.31')" ]; then
                 _cputype="$_cputype-musl"
@@ -122,8 +122,8 @@ get_architecture() {
         _os=MacOS
         # We only provide arm64 builds for Mac starting with v0.12.1. If the requested version below
         # v0.12.1, fallback to amd64 builds, since M1 chips are capable of running amd64 binaries.
-        if [ "$ATLAS_VERSION" != "latest" ] &&
-            [ "$(printf '%s\n' "v0.12.1" "$ATLAS_VERSION" | sort -V | head -n1)" = "$ATLAS_VERSION" ]; then
+        if [ "$_version" != "latest" ] &&
+            [ "$(printf '%s\n' "v0.12.1" "$_version" | sort -V | head -n1)" = "$_version" ]; then
             _cputype=amd64
         fi
         ;;
