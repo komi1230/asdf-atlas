@@ -15,8 +15,7 @@ fail() {
 curl_opts=(-fsSL)
 
 # NOTE: You might want to remove this if atlas is not hosted on GitHub releases.
-if [ -n "${GITHUB_API_TOKEN:-}" ];
-then
+if [ -n "${GITHUB_API_TOKEN:-}" ]; then
 	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
 
@@ -34,7 +33,7 @@ list_github_tags() {
 list_all_versions() {
 	list_github_tags |
 		grep -e '^v' |
-        sed -e 's/^v//'
+		sed -e 's/^v//'
 }
 
 download_release() {
@@ -64,7 +63,7 @@ install_version() {
 	(
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
-        chmod +x "$install_path/atlas"
+		chmod +x "$install_path/atlas"
 
 		local tool_cmd
 		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
@@ -111,8 +110,9 @@ get_architecture() {
 		# or the glibc version is <2.31, use the musl build.
 		if [ "$_version" != "latest" ] &&
 			[ "$(printf '%s\n' "v0.12.1" "$_version" | sort -V | head -n1)" = "$_version" ]; then
+			_tmp_version="$(ldd --version | awk '/ldd/{print $NF}')"
 			if ldd --version 2>&1 | grep -q 'musl' ||
-				[ "$(version \"$(ldd --version | awk '/ldd/{print $NF}')\")" -lt "$(version '2.31')" ]; then
+				[ "$(version \"$_tmp_version\")" -lt "$(version '2.31')" ]; then
 				_cputype="$_cputype-musl"
 			fi
 		fi
