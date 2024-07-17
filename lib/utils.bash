@@ -32,7 +32,8 @@ list_github_tags() {
 
 list_all_versions() {
 	list_github_tags | \
-		grep -e '^v'
+		grep -e '^v' | \
+        sed -e 's/^v//'
 }
 
 download_release() {
